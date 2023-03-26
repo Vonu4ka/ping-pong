@@ -7,6 +7,11 @@ win_height = 500
 window = display.set_mode((win_width, win_height))
 window.fill(background)
 
+font.init()
+font1 = font.SysFont('Times New Roman', 80)
+lose1 = font1.render('player 1 lose', True, (255, 255, 255))
+lose2 = font1.render('player 1 lose', True, (180, 0, 0))
+
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed, width, height):
         self.image = transform.scale(image.load(player_image), (width, height))
@@ -56,6 +61,15 @@ while game:
         if sprite.collide_rect(racket_l, ball) or sprite.collide_rect(racket_r, ball):
             speed_x *= -1
             speed_y *= 1
+
+        if ball.rect.x < 0:
+            finish = True
+            window.blit(lose1, (200,200))
+
+        if ball.rect.x > win_width:
+            finish = True
+            window.blit(lose2, (200, 200))
+            
         
         
 
@@ -67,6 +81,12 @@ while game:
         racket_r.reset()
     display.update()
     clock.tick(60)
+
+
+
+
+
+
 
 
 
