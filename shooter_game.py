@@ -22,6 +22,24 @@ speed_x = 3
 speed_y = 3 
 finish = False
 
+class Player(GameSprite):
+    def update_r(self):
+        keys = key.get_pressed()
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -=self.speed
+        if keys[K_DOWN] and self.rect.y < win_height - 80:
+            self.rect.y +=self.speed
+    
+    def update_l(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -=self.speed
+        if keys[K_s] and self.rect.y < win_height - 80:
+            self.rect.y +=self.speed
+
+racket_l = Player('Без названия.jpg', 30,200,4,50,150)
+racket_r = Player('Без названия.jpg', 520,200,4,50,150)
+
 game  = True
 clock = time.Clock()
 while game:
@@ -35,8 +53,22 @@ while game:
         if ball.rect.y > win_height-50 or ball.rect.y < 0:
             speed_y *= -1
         ball.reset()
+        racket_l.update_l()
+        racket_r.update_r()
+        racket_l.reset()
+        racket_r.reset()
+    
     display.update()
     clock.tick(60)
+
+
+
+
+
+
+
+
+
 
 
 
