@@ -9,8 +9,11 @@ window.fill(background)
 
 font.init()
 font1 = font.SysFont('Times New Roman', 80)
-lose1 = font1.render('player 1 lose', True, (255, 255, 255))
+lose1 = font1.render('player 1 lose', True, (180, 0, 0))
 lose2 = font1.render('player 1 lose', True, (180, 0, 0))
+win1 = font1.render('player 1 win', True, (180, 0, 0))
+win2 = font1.render('player 1 win', True, (180, 0, 0))
+
 
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed, width, height):
@@ -47,6 +50,8 @@ racket_r = Player('Без названия.jpg', 520,200,4,50,150)
 
 game  = True
 clock = time.Clock()
+score_l = 0
+score_r = 0
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -58,10 +63,22 @@ while game:
         if ball.rect.y > win_height-50 or ball.rect.y < 0:
             speed_y *= -1
 
-        if sprite.collide_rect(racket_l, ball) or sprite.collide_rect(racket_r, ball):
+        if sprite.collide_rect(racket_l, ball): 
             speed_x *= -1
             speed_y *= 1
+            score_l +=1
+        if sprite.collide_rect(racket_r, ball):
+            speed_x *= -1
+            speed_y *= 1
+            score_r +=1
 
+        if score_l >= 5:
+            finish = True
+            window.blit(win1, (200,200))
+        if score_r >= 5:
+            finish = True
+            window.blit(win2, (200,200))
+    
         if ball.rect.x < 0:
             finish = True
             window.blit(lose1, (200,200))
@@ -69,7 +86,7 @@ while game:
         if ball.rect.x > win_width:
             finish = True
             window.blit(lose2, (200, 200))
-            
+
         
         
 
@@ -81,6 +98,10 @@ while game:
         racket_r.reset()
     display.update()
     clock.tick(60)
+
+
+
+
 
 
 
